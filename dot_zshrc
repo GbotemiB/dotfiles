@@ -1,0 +1,71 @@
+# ~/.zshrc
+
+# ── History ──────────────────────────────────────────────────────────────────
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+# ── Shell options ────────────────────────────────────────────────────────────
+setopt autocd
+setopt correct
+setopt interactivecomments
+setopt magicequalsubst
+setopt nonomatch
+setopt notify
+setopt numericglobsort
+setopt promptsubst
+
+# ── Completion ────────────────────────────────────────────────────────────────
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+# ── Prompt ───────────────────────────────────────────────────────────────────
+if command -v starship &>/dev/null; then
+    eval "$(starship init zsh)"
+else
+    PROMPT='%F{green}%n@%m%f:%F{blue}%~%f%# '
+fi
+
+# ── Aliases ───────────────────────────────────────────────────────────────────
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias mkdir='mkdir -p'
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
+
+if ls --color=auto &>/dev/null 2>&1; then
+    # GNU coreutils (Linux)
+    alias ls='ls --color=auto'
+    alias ll='ls -lAh --color=auto'
+    alias la='ls -A --color=auto'
+else
+    # BSD/macOS
+    alias ls='ls -G'
+    alias ll='ls -lAhG'
+    alias la='ls -AG'
+fi
+
+# ── Path ──────────────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── Environment ───────────────────────────────────────────────────────────────
+export EDITOR=vim
+export VISUAL=vim
+export PAGER=less
+export LESS='-R'
+
+# ── Key bindings ─────────────────────────────────────────────────────────────
+bindkey -e                    # emacs key bindings
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+# ── Source local config if present ───────────────────────────────────────────
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
