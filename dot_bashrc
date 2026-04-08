@@ -1,0 +1,56 @@
+# ~/.bashrc
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# ── History ─────────────────────────────────────────────────────────────────
+HISTSIZE=10000
+HISTFILESIZE=20000
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+
+# ── Shell options ────────────────────────────────────────────────────────────
+shopt -s checkwinsize
+shopt -s globstar 2>/dev/null
+shopt -s autocd   2>/dev/null
+
+# ── Prompt ───────────────────────────────────────────────────────────────────
+# Use starship if available, otherwise fall back to a simple coloured prompt
+if command -v starship &>/dev/null; then
+    eval "$(starship init bash)"
+else
+    PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ '
+fi
+
+# ── Aliases ───────────────────────────────────────────────────────────────────
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias mkdir='mkdir -p'
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
+
+if ls --color=auto &>/dev/null 2>&1; then
+    # GNU coreutils (Linux)
+    alias ls='ls --color=auto'
+    alias ll='ls -lAh --color=auto'
+    alias la='ls -A --color=auto'
+else
+    # BSD/macOS
+    alias ls='ls -G'
+    alias ll='ls -lAhG'
+    alias la='ls -AG'
+fi
+
+# ── Path ──────────────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── Environment ───────────────────────────────────────────────────────────────
+export EDITOR=vim
+export VISUAL=vim
+export PAGER=less
+export LESS='-R'
+
+# ── Source local config if present ───────────────────────────────────────────
+[[ -f "$HOME/.bashrc.local" ]] && source "$HOME/.bashrc.local"

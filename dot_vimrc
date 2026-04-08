@@ -1,0 +1,74 @@
+" ~/.vimrc
+
+" ── General ───────────────────────────────────────────────────────────────────
+set nocompatible
+filetype plugin indent on
+syntax on
+set encoding=utf-8
+set hidden
+set history=1000
+set updatetime=300
+set timeoutlen=500
+
+" ── UI ────────────────────────────────────────────────────────────────────────
+set number
+set relativenumber
+set cursorline
+set showmatch
+set wildmenu
+set wildmode=list:longest,full
+set scrolloff=8
+set sidescrolloff=8
+set laststatus=2
+set ruler
+set showcmd
+set noshowmode
+set signcolumn=yes
+set colorcolumn=80
+
+" ── Indentation ───────────────────────────────────────────────────────────────
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+set smartindent
+
+" ── Search ────────────────────────────────────────────────────────────────────
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+nnoremap <silent> <Esc> :nohlsearch<CR>
+
+" ── Splits ────────────────────────────────────────────────────────────────────
+set splitright
+set splitbelow
+
+" ── Key mappings ─────────────────────────────────────────────────────────────
+let mapleader = " "
+
+" Easier window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Move lines up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" ── Backups ───────────────────────────────────────────────────────────────────
+set noswapfile
+set nobackup
+set nowritebackup
+set undofile
+set undodir=~/.vim/undodir
+silent !mkdir -p ~/.vim/undodir
+
+" ── Source local config if present ───────────────────────────────────────────
+if filereadable(expand("~/.vimrc.local"))
+    source ~/.vimrc.local
+endif
